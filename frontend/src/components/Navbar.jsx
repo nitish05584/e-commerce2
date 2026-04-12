@@ -17,6 +17,8 @@ const Navbar = () => {
         <li className='cursor-pointer relative flex items-center'onClick={()=>navigate("/cart")}><ShoppingCart className='w-6 h-6'/>
         <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full'>5</span> 
         </li> 
+
+       <li></li>
         
             
         </ul>
