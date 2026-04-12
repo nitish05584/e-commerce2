@@ -2,6 +2,7 @@ import { LogIn, ShoppingCart, User } from 'lucide-react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
+import { ModeToggle } from './mode-toggle'
 
 const Navbar = () => {
     const navigate=useNavigate()
@@ -10,7 +11,7 @@ const Navbar = () => {
         alert("Logged out successfully")
     }
      
-    const isAuth=true
+    const isAuth=false
   return (
     <div className='z-50 sticky top-0 bg-background/50 border-b backdrop-blur'>
      <div className='container mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between'>
@@ -49,7 +50,7 @@ const Navbar = () => {
         </DropdownMenu>
        </li>
         
-            
+        <ModeToggle/> 
         </ul>
         </div>   
       
