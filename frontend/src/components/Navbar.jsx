@@ -1,9 +1,16 @@
-import { ShoppingCart } from 'lucide-react'
+import { LogIn, ShoppingCart, User } from 'lucide-react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
 
 const Navbar = () => {
     const navigate=useNavigate()
+
+    const logoutHandler=()=>{
+        alert("Logged out successfully")
+    }
+     
+    const isAuth=true
   return (
     <div className='z-50 sticky top-0 bg-background/50 border-b backdrop-blur'>
      <div className='container mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between'>
@@ -18,7 +25,29 @@ const Navbar = () => {
         <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full'>5</span> 
         </li> 
 
-       <li></li>
+       <li className='cursor-pointer'>
+ <DropdownMenu>     
+    <DropdownMenuTrigger>
+    {isAuth? <User/>:<LogIn/>}
+
+     </DropdownMenuTrigger>
+     <DropdownMenuContent>
+        <DropdownMenuGroup>
+        <DropdownMenuLabel>Account</DropdownMenuLabel>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator/>
+        {!isAuth?(<><DropdownMenuItem onClick={()=>navigate("/login")}>Login</DropdownMenuItem></>
+    ):(<><DropdownMenuItem onClick={()=>navigate("/order")}>Your Order</DropdownMenuItem>
+
+
+    <DropdownMenuItem onClick={logoutHandler}>Logout</DropdownMenuItem>
+    
+    </>
+
+    )}
+     </DropdownMenuContent>
+        </DropdownMenu>
+       </li>
         
             
         </ul>
