@@ -6,25 +6,29 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import { UserData } from './context/UserContext'
 import Verify from './pages/Verify'
+import Loading from './components/Loading'
 
 
 const App = () => {
-  const {}=UserData()
+  const {isAuth,loading}=UserData()
   return (
 <>
+    {loading ? <Loading/> : 
     <BrowserRouter>
     <Navbar/>
     <Routes>
       
       <Route path='/' element={<Home/>}/>
 
-      <Route path='/login' element={<Login/>}/>
+      <Route path='/login' element={isAuth ? <Home/> : <Login/>}/>
 
-      <Route path='/verify' element={<Verify/>}/>
+      <Route path='/verify' element={isAuth ? <Home/> : <Verify/>}/>
 
     </Routes>
     <Footer/>
     </BrowserRouter>
+
+    }
     
     </>
   )
