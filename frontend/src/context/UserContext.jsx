@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { server } from "@/main";
+import Cookies from "js-cookie";
 
 const UserContext = createContext();
 
@@ -29,9 +30,33 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+
+
+
+  const verifyUser = async (otp, navigate) => {
+    setBtnLoading(true);
+    const email=localStorage.getItem("email")
+    try {
+      const { data } = await axios.post(`${server}/api/user/verify`, {email, otp });
+
+      toast.success(data.message);
+      localStorage.clear();
+      navigate("/")
+      setBtnLoading(false);
+      Cookies.set("token", data.token,{expires:15, secure: true, path:"/"});
+      setIsAuth(true);
+      setUser(data.user);
+      
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    } finally {
+      setBtnLoading(false);
+    }
+  };
+
   return (
     <UserContext.Provider
-      value={{ user, loading, btnLoading, isAuth, loginUser }}
+      value={{ user, loading, btnLoading, isAuth, loginUser,verifyUser }}
     >
       {children}
       <Toaster />
