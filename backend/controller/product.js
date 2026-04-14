@@ -79,7 +79,7 @@ const getAllProducts=async(req,res)=>{
 
         const totalPages=Math.ceil(countProduct/limit)
 
-        res.status(200).json({message:"Products fetched successfully",products,categories,newProduct,totalPages})
+        res.json({message:"Products fetched successfully",products,categories,newProduct,totalPages})
 
 
     } catch (error) {

@@ -4,6 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import { ThemeProvider } from './components/theme-provider'
 import { UserProvider } from './context/UserContext'
+import { ProductProvider } from './context/ProductContext'
 
 export const server="http://localhost:8080"
 
@@ -11,7 +12,10 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>
       <UserProvider>
-    <App />
+        <ProductProvider>
+          <App />
+        </ProductProvider>
+  
       </UserProvider>
 
     </ThemeProvider>
