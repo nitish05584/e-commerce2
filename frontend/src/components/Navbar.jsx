@@ -3,15 +3,15 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { ModeToggle } from './mode-toggle'
+import { UserData } from '../context/UserContext'
 
 const Navbar = () => {
     const navigate=useNavigate()
+    const { isAuth } = UserData()
 
     const logoutHandler=()=>{
         alert("Logged out successfully")
     }
-     
-    const isAuth=false
   return (
     <div className='z-50 sticky top-0 bg-background/50 border-b backdrop-blur'>
      <div className='container mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between'>

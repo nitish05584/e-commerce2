@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { server } from "@/main";
@@ -53,6 +53,29 @@ export const UserProvider = ({ children }) => {
       setBtnLoading(false);
     }
   };
+
+
+  const fetchUser = async () => {
+    try {
+      const { data } = await axios.get(`${server}/api/user/me`,{
+        headers:{token:Cookies.get("token")}
+      } )
+      setUser(data.user);
+      setIsAuth(true);
+      setLoading(false);
+    } catch (error) {
+      console.log(error)
+        setIsAuth(false);
+        setLoading(false);
+    }
+  }
+
+  useEffect(()=>{
+    fetchUser()
+  },[])
+
+
+
 
   return (
     <UserContext.Provider
