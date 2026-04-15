@@ -8,7 +8,7 @@ const ProductCard = ({product,latest}) => {
   return (
     <div>
       {
-        product && <div className='w-[300px] mx-auto shadow-md rounded-lg overflow-hidden border-gray-200'><Link to={`/product/${product._id}`}>
+        product && <div className='w-[300px] mx-auto shadow-md rounded-lg overflow-hidden border-gray-200 border'><Link to={`/product/${product._id}`}>
        <div className='relative h-[300px] bg-gray-100 flex justify-center items-center'>
         <img src={product.images[0].url} alt="product" className='max-w-full max-h-full object-contain hover:scale-125'/>
        {

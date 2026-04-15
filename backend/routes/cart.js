@@ -12,7 +12,7 @@ router.get("/cart/remove/:id",isAuth,removeFromCart)
 
 router.post("/cart/update",isAuth,updateCart)
 
-router.get("/cart/alll",isAuth,fetchCart)
+router.get("/cart/all",isAuth,fetchCart)
 
 
 

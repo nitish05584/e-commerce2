@@ -32,12 +32,34 @@ export const ProductProvider = ({ children }) => {
            setLoading(false);
         }
     }
+
+
+    const [product, setProduct] = useState([]);
+    const [relatedProduct,setRelatedProduct]=useState([])
+    
+     
+
+    const fetchProduct=async(id)=>{
+        setLoading(true);
+      try {
+        const {data}=await axios.get(`${server}/api/product/${id}`)
+        setProduct(data.product)
+        setRelatedProduct(data.relatedProducts)
+        setLoading(false);
+      } catch (error) {
+        console.log(error)
+        setLoading(false);
+      }
+    }
+
     useEffect(()=>{
        fetchProducts(); 
     },[search,category,page,price])
 
     return (
-        <ProductContext.Provider value={{loading, products, newProd,search, setSearch, category, setCategory, price, setPrice, categories, page, setPage,totalPages}}>
+        <ProductContext.Provider value={{loading, products, newProd,search, setSearch, category, setCategory, price, setPrice, categories, page, setPage,totalPages,
+          fetchProduct, product, relatedProduct  
+        }}>
             {children}
         </ProductContext.Provider>
     )

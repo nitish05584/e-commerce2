@@ -5,24 +5,33 @@ const addToCart = async (req, res) => {
     try {
         const {product}=req.body
 
+        if(!product){
+            return res.status(400).json({message:"Product id is required"})
+        }
+
         const cart=await Cart.findOne({product:product,user:req.user._id}).populate("product")
         
         if(cart){
-           if(cart.product.stock===cart.quantity){
+           if(cart.product.stock<=cart.quantity){
             return res.status(400).json({message:"Product stock limit reached"})
         }
             cart.quantity+=1
             await cart.save()
-            res.status(200).json({message:"Product quantity updated in cart",cart})
+            return res.status(200).json({message:"Product quantity updated in cart",cart})
         
     }
 
     const cartProd=await Product.findById(product)
-    if(cartProd.stock===0){
+
+    if(!cartProd){
+        return res.status(404).json({message:"Product not found"})
+    }
+
+    if(cartProd.stock<=0){
         return res.status(400).json({message:"Product out of stock"})
     }
-    await Cart.create({product:product,user:req.user._id,quantity:1})
-    res.status(200).json({message:"Product added to cart successfully"})
+    const createdCart=await Cart.create({product:product,user:req.user._id,quantity:1})
+    return res.status(200).json({message:"Product added to cart successfully",cart:createdCart})
 
     } catch (error) {
         res.status(500).json({message:"cart server error"})
