@@ -33,7 +33,7 @@ export const UserProvider = ({ children }) => {
 
 
 
-  const verifyUser = async (otp, navigate) => {
+  const verifyUser = async (otp, navigate,fetchCart) => {
     setBtnLoading(true);
     const email=localStorage.getItem("email")
     try {
@@ -43,9 +43,12 @@ export const UserProvider = ({ children }) => {
       localStorage.clear();
       navigate("/")
       setBtnLoading(false);
-      Cookies.set("token", data.token,{expires:15, secure: true, path:"/"});
-      setIsAuth(true);
+       setIsAuth(true);
       setUser(data.user);
+
+      Cookies.set("token", data.token,{expires:15, secure: true, path:"/"});
+     
+      fetchCart();
       
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
@@ -70,12 +73,14 @@ export const UserProvider = ({ children }) => {
     }
   }
 
-  const logoutUser = (navigate) => {
+  const logoutUser = (navigate,setTotalItem) => {
  Cookies.set("token",null);
  setUser([])
  setIsAuth(false)
  navigate("/login")
  toast.success("Logged out successfully")
+  setTotalItem(0)
+ 
   }
 
   useEffect(()=>{

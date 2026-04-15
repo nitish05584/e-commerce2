@@ -10,11 +10,11 @@ const Navbar = () => {
     const navigate=useNavigate()
     const { isAuth,logoutUser } = UserData()
 
-    const {totalItem}=CartData()
+    const {totalItem,setTotalItem}=CartData()
 
 
     const logoutHandler=()=>{
-       logoutUser(navigate)
+       logoutUser(navigate,setTotalItem)
     }
   return (
     <div className='z-50 sticky top-0 bg-background/50 border-b backdrop-blur'>
@@ -27,7 +27,7 @@ const Navbar = () => {
        <li className='cursor-pointer'onClick={()=>navigate("/products")}>Products</li>
 
         <li className='cursor-pointer relative flex items-center'onClick={()=>navigate("/cart")}><ShoppingCart className='w-6 h-6'/>
-        <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full'>{totalItem}</span> 
+        <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full'>{totalItem ? totalItem: 0}</span> 
         </li> 
 
        <li className='cursor-pointer'>

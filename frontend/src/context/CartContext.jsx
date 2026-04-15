@@ -18,7 +18,7 @@ export const CartProvider=({children})=>{
         try {
           const {data}=await axios.get(`${server}/api/cart/all`,{
             headers:{
-               token, 
+               token:Cookies.get("token"), 
             }
           }) 
             setCart(data.cart); 
@@ -46,7 +46,7 @@ export const CartProvider=({children})=>{
     useEffect(()=>{
         fetchCart();
     },[])
-    return <CartContext.Provider value={{cart,totalItem,subtotal,fetchCart,loading,addToCart}}>
+    return <CartContext.Provider value={{cart,totalItem,subtotal,fetchCart,loading,addToCart,setTotalItem}}>
         {children}
     </CartContext.Provider>
 }

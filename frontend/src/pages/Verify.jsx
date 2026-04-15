@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { CartData } from '@/context/CartContext'
 import { UserData } from '@/context/UserContext'
 import { Loader } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -11,12 +12,14 @@ const Verify = () => {
  const [otp,setOtp]=useState("")
 
 const {btnLoading,loginUser,verifyUser}=UserData()
+
+const {fetchCart}=CartData()
   
  const navigate=useNavigate()
 
 
   const submitHandler=()=>{
-  verifyUser(Number(otp),navigate)
+  verifyUser(Number(otp),navigate,fetchCart)
   }
 
   const [timer,setTimer]=useState(90)
