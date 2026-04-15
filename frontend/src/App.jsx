@@ -8,6 +8,7 @@ import { UserData } from './context/UserContext'
 import Verify from './pages/Verify'
 import Loading from './components/Loading'
 import Products from './pages/Products'
+import Cart from './pages/Cart'
 
 
 const App = () => {
@@ -22,6 +23,8 @@ const App = () => {
       <Route path='/' element={<Home/>}/>
 
        <Route path='/products' element={<Products/>}/>
+
+       <Route path='/cart' element={isAuth ? <Cart/> : <Login/>}/>
 
       <Route path='/login' element={isAuth ? <Home/> : <Login/>}/>
 

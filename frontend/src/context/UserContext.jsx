@@ -70,6 +70,14 @@ export const UserProvider = ({ children }) => {
     }
   }
 
+  const logoutUser = (navigate) => {
+ Cookies.set("token",null);
+ setUser([])
+ setIsAuth(false)
+ navigate("/login")
+ toast.success("Logged out successfully")
+  }
+
   useEffect(()=>{
     fetchUser()
   },[])
@@ -79,7 +87,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, loading, btnLoading, isAuth, loginUser,verifyUser }}
+      value={{ user, loading, btnLoading, isAuth, loginUser,verifyUser,logoutUser }}
     >
       {children}
       <Toaster />

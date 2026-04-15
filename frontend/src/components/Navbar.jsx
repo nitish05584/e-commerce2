@@ -7,10 +7,11 @@ import { UserData } from '../context/UserContext'
 
 const Navbar = () => {
     const navigate=useNavigate()
-    const { isAuth } = UserData()
+    const { isAuth,logoutUser } = UserData()
+
 
     const logoutHandler=()=>{
-        alert("Logged out successfully")
+       logoutUser(navigate)
     }
   return (
     <div className='z-50 sticky top-0 bg-background/50 border-b backdrop-blur'>
