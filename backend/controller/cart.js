@@ -44,12 +44,16 @@ const removeFromCart=async(req,res)=>{
     try {
         const cart=await Cart.findById(req.params.id)
 
+        if(!cart){
+            return res.status(404).json({message:"Cart item not found"})
+        }
+
         await cart.deleteOne()
 
-        res.status(200).json({message:"Product removed from cart successfully"})
+        return res.status(200).json({message:"Product removed from cart successfully"})
         
     } catch (error) {
-        res.status(500).json({message:"cart server error"})
+        return res.status(500).json({message:"cart server error"})
     }
 }
 
@@ -57,40 +61,41 @@ const removeFromCart=async(req,res)=>{
 const updateCart=async(req,res)=>{
     try {
         const {action}=req.query
+        const {id}=req.body
+
+        if(!id){
+            return res.status(400).json({message:"Cart ID is required"})
+        }
+
+        const cart=await Cart.findById(id).populate("product")
+
+        if(!cart){
+            return res.status(404).json({message:"Cart item not found"})
+        }
 
         if(action==="inc"){
-            const {id}=req.body
-            const cart=await Cart.findById(id).populate("product")
-
             if(cart.quantity<cart.product.stock){
              cart.quantity+=1
-
              await cart.save()
-                res.status(200).json({message:"Cart quantity increased",cart})
-                
+             return res.status(200).json({message:"Cart quantity increased",cart})
             }else{
-                res.status(400).json({message:"Product stock limit reached"})
+                return res.status(400).json({message:"Product stock limit reached"})
             }
-            res.status(200).json({message:"Cart quantity increased"})
         }
-        if(action==="dec"){
-            const {id}=req.body
-            const cart=await Cart.findById(id).populate("product")
-            
+        else if(action==="dec"){
             if(cart.quantity>1){
              cart.quantity-=1
              await cart.save()
-             res.status(200).json({message:"Cart quantity decreased",cart})
+             return res.status(200).json({message:"Cart quantity decreased",cart})
             }else{
-                res.status(400).json({message:"Cannot decrease quantity below 1"})
+                return res.status(400).json({message:"Cannot decrease quantity below 1"})
             }
-            res.status(200).json({message:"Cart quantity decreased"})
         }
-
-        
+        else{
+            return res.status(400).json({message:"Invalid action. Use 'inc' or 'dec'"})
+        }
     } catch (error) {
-       
-        res.status(500).json({message:"updateCart server error"})
+        return res.status(500).json({message:"updateCart server error"})
     }
 }
 
@@ -99,12 +104,12 @@ const fetchCart=async(req,res)=>{
         const cart=await Cart.find({user:req.user._id}).populate("product")
         const sumofQuantities=cart.reduce((total,item)=>total+item.quantity,0)
 
-        let subTotal=0;
+        let subtotal=0;
         cart.forEach((i)=>{
             const itemSubTotal=i.product.price*i.quantity
-            subTotal+=itemSubTotal
+            subtotal+=itemSubTotal
         })
-        res.status(200).json({message:"Cart fetched successfully",cart,subTotal,sumofQuantities})
+        return res.status(200).json({message:"Cart fetched successfully",cart,subtotal,sumofQuantities})
 
     } catch (error) {
         res.status(500).json({message:"fetchCart server error"})
