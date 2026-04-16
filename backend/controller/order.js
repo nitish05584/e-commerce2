@@ -15,7 +15,7 @@ const newOrderCode=async(req,res)=>{
     try {
         const {method,phone,address} = req.body;
 
-        const cart=await Cart.find({user:req.user._id}).populate({path:"product",select:"total price"})
+        const cart=await Cart.find({user:req.user._id}).populate("product")
 
         if(!cart.length){
             return res.status(400).json({message:"Cart is empty"})
@@ -145,18 +145,18 @@ const stripe=new Stripe(process.env.Stripe_Secret_Key)
 const newOrderOnline=async(req,res)=>{
     try {
         const {method,phone,address} = req.body;
-        const cart=await Cart.find({user:req.user._id}).populate("products")
+        const cart=await Cart.find({user:req.user._id}).populate("product")
 
         if(!cart.length){
             return res.status(400).json({message:"Cart is empty"})
         }
         const subTotal=cart.reduce((total,item)=>total+item.product.price*item.quantity,0)
         const lineItems=cart.map((item)=>({
-           price_Data:{
-           curency:"inr",
+           price_data:{
+            currency:"inr",
             product_data:{
                 name:item.product.title,
-                images:[item.product.images[0].url],
+                ...(item.product.images?.[0]?.url ? { images:[item.product.images[0].url] } : {}),
             },
             unit_amount:Math.round(item.product.price*100),
            } ,
@@ -170,10 +170,10 @@ const newOrderOnline=async(req,res)=>{
             cancel_url:`${process.env.Frontend_Url}/cart`,
             metadata:{
                 userId:req.user._id.toString(),
-                method,
-                phone,
-                address,
-                subTotal
+                method:String(method),
+                phone:String(phone),
+                address:String(address),
+                subTotal:String(subTotal)
             }
         })
         res.json({url:session.url})
@@ -188,12 +188,12 @@ const newOrderOnline=async(req,res)=>{
 
 const verifyPayment=async(req,res)=>{
     try {
-       const {sessionsId} = req.body
-         const session=await stripe.checkout.sessions.retrieve(sessionsId)
+       const {sessionId} = req.body
+         const session=await stripe.checkout.sessions.retrieve(sessionId)
        
          const {userId,method,phone,address,subTotal}=session.metadata
 
-         const cart=await Cart.find({user:userId}).populate("products")
+         const cart=await Cart.find({user:userId}).populate("product")
 
          const items=cart.map((i)=>{
             return{
@@ -208,7 +208,7 @@ const verifyPayment=async(req,res)=>{
             return res.status(400).json({message:"Cart is empty"})
          }
 
-         const existingOrder=await Order.findOne({paymentInfo:sessionsId})
+         const existingOrder=await Order.findOne({paymentInfo:sessionId})
 
             if(!existingOrder){
                const order=await Order.create({
@@ -220,7 +220,7 @@ const verifyPayment=async(req,res)=>{
                    phone,
                    address,
                    subTotal,
-                   paymentInfo:sessionsId,
+                   paymentInfo:sessionId,
                    user:userId,
                    paidAt:new Date()
                 })
@@ -233,13 +233,13 @@ const verifyPayment=async(req,res)=>{
                 await product.save()
             }
         }
-        await Cart.deleteMany({user:req.user._id})
+        await Cart.deleteMany({user:userId})
 
         await sendOrderConfirmation({email:req.user.email,subject:"Order Confirmation",orderId:order._id,
             products:items,
             totalAmount:subTotal
         })
-        return res.json({message:"Payment verified and order placed successfully",order})
+        return res.status(200).json({success:true, message:"Payment verified and order placed successfully",order})
 
  
             }

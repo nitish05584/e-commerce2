@@ -20,7 +20,7 @@ router.get("/stats",isAuth,getStats)
 
 router.post("/order/new/online",isAuth,newOrderOnline)
 
-router.post("order/verify/payment",isAuth,verifyPayment)
+router.post("/order/verify/payment",isAuth,verifyPayment)
 
 
 

@@ -9,6 +9,8 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import {loadStripe} from '@stripe/stripe-js'
+
 const Payment = () => {
     const {cart,subTotal,fetchCart}=CartData()
     const [address,setAddress]=useState(null)
@@ -55,6 +57,30 @@ const Payment = () => {
            toast.error(error?.response?.data?.message || 'Failed to place order')  
         }
        }
+      if(method=="online"){
+        const stripePromise=loadStripe("pk_test_51TMsREAmq1enFJnM7aBSRsqP8sY7gXuk6ymdcaSohZt3724E0oCgf70CagUGwtywo683t8oF1h3GpndcPI1eGuly00KJGgVcLS")
+        try {
+         setLoading(true)
+          const stripe=await stripePromise
+         const {data}=await axios.post(`${server}/api/order/new/online`,{ method,phone:address.phone,address:address.address },{
+            headers:{
+                token:Cookies.get("token")
+            }
+         }) 
+         if(data?.url){
+            window.location.href=data.url
+            setLoading(false)
+         }else{
+            toast.error("Payment initiation failed. Please try again.") 
+            setLoading(false)
+         }
+
+            
+        } catch (error) {
+          toast.error("Payment failed. Please try again.") 
+          setLoading(false) 
+        }
+      } 
     }
   return (
     <div>
