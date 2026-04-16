@@ -14,7 +14,7 @@ const addAddress = async (req, res) => {
 const getAllAddress=async(req,res)=>{
     try {
         const allAddress=await Address.find({user:req.user._id})
-        res.status(200).json({message:"Address fetched successfully",allAddress})
+       return res.status(200).json({message:"Address fetched successfully",allAddress})
     } catch (error) {
         res.status(500).json({message:" address Server error"})
     }
