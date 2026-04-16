@@ -113,7 +113,7 @@ const Checkout = () => {
      </div>
 
       <DialogFooter>
-      <Button variant="outline" onClick={() => setModalOpen(false)}>Cancel</Button>
+      <Button variant="outline" onClick={() => setModalOpen(false)}>Close</Button>
 
       <Button variant="outline" onClick={handleAddAddress}>Add Address</Button>
      </DialogFooter>
