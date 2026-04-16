@@ -47,15 +47,16 @@ const Cart = () => {
           <Separator className='my-2'/>
           <div className='space-y-2'>
             <div className='flex justify-between text-sm'>
-              <span>Total Items-{totalItem}</span>
-              <span>Total Price - {subTotal}</span>
+              <span>Total Items - {totalItem}</span>
+              <span>Total Price -  ₹ {subTotal}</span>
             </div>
           </div>
           <Separator className='my-4'/>
           <div className='flex justify-between font-medium text-lg'>
             <span>Total:</span>
-            <span>{subTotal}</span>
+            <span>₹ {subTotal}</span>
           </div>
+          <Button className='w-full mt-6' onClick={() => navigate('/checkout')} disabled={cart.length===0}> Checkout</Button>
         </div>
           </div>
         )

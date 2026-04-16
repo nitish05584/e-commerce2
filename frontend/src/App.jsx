@@ -11,6 +11,7 @@ import Products from './pages/Products'
 import Cart from './pages/Cart'
 import NotFound from './pages/NotFound'
 import ProductPage from './pages/ProductPage'
+import Checkout from './pages/Checkout'
 
 
 const App = () => {
@@ -29,6 +30,8 @@ const App = () => {
         <Route path='/product/:id' element={<ProductPage/>}/>
 
        <Route path='/cart' element={isAuth ? <Cart/> : <Login/>}/>
+
+       <Route path='/checkout' element={isAuth ? <Checkout/> : <Login/>}/>
 
        <Route path='*' element={<NotFound/>}/>
 
