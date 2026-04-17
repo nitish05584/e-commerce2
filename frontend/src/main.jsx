@@ -9,6 +9,45 @@ import { CartProvider } from './context/CartContext'
 
 export const server="http://localhost:8080"
 
+export const categories=[
+  "smartphone",
+  "laptop",
+  "tshirt",
+  "refrigerator",
+  "headphones",
+  "shoes",
+  "watch",
+  "camera",
+  "tablet",
+  "television",
+  "sofa",
+  "bed",
+  "microwave",
+  "air conditioner",
+  "washing machine",
+  "gaming console",
+  "books",
+  "toys",
+  "kitchenware",
+  "fitness equipment",
+  "grocery",
+  "accessories",
+  "furniture",
+  "stationery",
+  "car accessories",
+  "motercycle accessories",
+  "sporting goods",
+  "home decor",
+  "healthcare products",
+  "office supplies",
+  "pet supplies",
+  "power tools",
+  "gradening tools",
+
+
+
+]
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>
