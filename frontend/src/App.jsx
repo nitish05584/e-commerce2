@@ -14,6 +14,8 @@ import ProductPage from './pages/ProductPage'
 import Checkout from './pages/Checkout'
 import Payment from './pages/Payment'
 import OrderProcessing from './pages/OrderProcessing'
+import Orders from './pages/Orders'
+import OrderPage from './pages/OrderPage'
 
 
 const App = () => {
@@ -32,6 +34,10 @@ const App = () => {
         <Route path='/product/:id' element={<ProductPage/>}/>
 
        <Route path='/cart' element={isAuth ? <Cart/> : <Login/>}/>
+
+        <Route path='/order/:id' element={isAuth ? <Orders/> : <Login/>}/>
+         
+         <Route path='/orders' element={isAuth ? <OrderPage/> : <Login/>}/>
 
        <Route path='/checkout' element={isAuth ? <Checkout/> : <Login/>}/>
 

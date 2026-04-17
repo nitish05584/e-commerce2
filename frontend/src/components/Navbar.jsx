@@ -42,7 +42,7 @@ const Navbar = () => {
         </DropdownMenuGroup>
         <DropdownMenuSeparator/>
         {!isAuth?(<><DropdownMenuItem onClick={()=>navigate("/login")}>Login</DropdownMenuItem></>
-    ):(<><DropdownMenuItem onClick={()=>navigate("/order")}>Your Order</DropdownMenuItem>
+    ):(<><DropdownMenuItem onClick={()=>navigate("/orders")}>Your Order</DropdownMenuItem>
 
 
     <DropdownMenuItem onClick={logoutHandler}>Logout</DropdownMenuItem>
