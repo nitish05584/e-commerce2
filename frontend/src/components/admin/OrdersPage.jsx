@@ -55,8 +55,16 @@ const OrdersPage = () => {
 
        <TableCell>
        <Link to={`/order/${order._id}`} >{order._id}</Link>
-       
-        </TableCell>   
+        </TableCell> 
+
+        <TableCell>
+        {order.user.email}
+        </TableCell> 
+
+        <TableCell>
+        {order.subTotal}
+        </TableCell> 
+          
         </TableRow>
       ))}
      </TableBody>

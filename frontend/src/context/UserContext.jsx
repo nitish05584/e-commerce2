@@ -46,7 +46,12 @@ export const UserProvider = ({ children }) => {
        setIsAuth(true);
       setUser(data.user);
 
-      Cookies.set("token", data.token,{expires:15, secure: true, path:"/"});
+      Cookies.set("token", data.token, {
+        expires: 15,
+        secure: window.location.protocol === "https:",
+        sameSite: "lax",
+        path: "/",
+      });
      
       fetchCart();
       
@@ -63,11 +68,12 @@ export const UserProvider = ({ children }) => {
       const { data } = await axios.get(`${server}/api/user/me`,{
         headers:{token:Cookies.get("token")}
       } )
-      setUser(data);
-      setIsAuth(true);
+      setUser(data?.user ?? null);
+      setIsAuth(Boolean(data?.user));
       setLoading(false);
     } catch (error) {
       console.log(error)
+        setUser(null)
         setIsAuth(false);
         setLoading(false);
     }
@@ -75,7 +81,7 @@ export const UserProvider = ({ children }) => {
 
   const logoutUser = (navigate,setTotalItem) => {
  Cookies.set("token",null);
- setUser([])
+ setUser(null)
  setIsAuth(false)
  navigate("/login")
  toast.success("Logged out successfully")

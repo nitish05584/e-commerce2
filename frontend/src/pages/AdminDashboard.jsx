@@ -5,17 +5,25 @@ import { Button } from '@/components/ui/button'
 import { UserData } from '@/context/UserContext'
 import { Home, Info, MenuIcon, ShoppingBag, X } from 'lucide-react'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
+import Loading from '@/components/Loading'
 
 const AdminDashboard = () => {
     const  [selectedPage,setSelectedPage]=useState("home")
     const [sidebarOpen,setSidebarOpen]=useState(false)
-    const navigate=useNavigate()
 
-    const {user}=UserData()
+    const {user, loading}=UserData()
+
+    if (loading) {
+      return <Loading />
+    }
+
+    if (!user) {
+      return <Navigate to="/login" replace />
+    }
 
     if(user.role!=="admin"){
-      return  navigate("/")
+      return <Navigate to="/" replace />
     }
 
     const renderPageContent=()=>{

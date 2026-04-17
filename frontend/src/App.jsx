@@ -20,7 +20,7 @@ import AdminDashboard from './pages/AdminDashboard'
 
 
 const App = () => {
-  const {isAuth,loading}=UserData()
+  const {isAuth,loading,user}=UserData()
   return (
 <>
     {loading ? <Loading/> : 
@@ -41,7 +41,7 @@ const App = () => {
            <Route path='/order/:id' element={isAuth ? <OrderPage/> : <Login/>}/>
 
 
-            <Route path='/admin/dashboard' element={isAuth ? <AdminDashboard/> : <Login/>}/>
+            <Route path='/admin/dashboard' element={isAuth ? (user?.role === "admin" ? <AdminDashboard/> : <Home/>) : <Login/>}/>
 
        <Route path='/checkout' element={isAuth ? <Checkout/> : <Login/>}/>
 
