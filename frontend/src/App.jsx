@@ -35,9 +35,9 @@ const App = () => {
 
        <Route path='/cart' element={isAuth ? <Cart/> : <Login/>}/>
 
-        <Route path='/order/:id' element={isAuth ? <Orders/> : <Login/>}/>
+         <Route path='/orders' element={isAuth ? <Orders/> : <Login/>}/>
          
-         <Route path='/orders' element={isAuth ? <OrderPage/> : <Login/>}/>
+           <Route path='/order/:id' element={isAuth ? <OrderPage/> : <Login/>}/>
 
        <Route path='/checkout' element={isAuth ? <Checkout/> : <Login/>}/>
 
