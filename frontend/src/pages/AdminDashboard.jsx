@@ -2,12 +2,21 @@ import HomePage from '@/components/admin/HomePage'
 import InfoPage from '@/components/admin/InfoPage'
 import OrdersPage from '@/components/admin/OrdersPage'
 import { Button } from '@/components/ui/button'
+import { UserData } from '@/context/UserContext'
 import { Home, Info, MenuIcon, ShoppingBag, X } from 'lucide-react'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const AdminDashboard = () => {
     const  [selectedPage,setSelectedPage]=useState("home")
     const [sidebarOpen,setSidebarOpen]=useState(false)
+    const navigate=useNavigate()
+
+    const {user}=UserData()
+
+    if(user.role!=="admin"){
+      return  navigate("/")
+    }
 
     const renderPageContent=()=>{
         switch(selectedPage){

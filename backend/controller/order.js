@@ -84,7 +84,7 @@ const getAllOrdersAdmin=async(req,res)=>{
         if(req.user.role!=="admin"){
             return res.status(403).json({message:"Forbidden"})
         }
-        const orders=(await Order.find().populate("user")).toSorted({createdAt:-1})
+        const orders=await Order.find().populate("user").sort({createdAt:-1})
 
         res.json(orders)
     } catch (error) {
