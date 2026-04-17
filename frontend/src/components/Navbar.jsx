@@ -8,7 +8,7 @@ import { CartData } from '@/context/CartContext'
 
 const Navbar = () => {
     const navigate=useNavigate()
-    const { isAuth,logoutUser } = UserData()
+    const { isAuth,logoutUser,user } = UserData()
 
     const {totalItem,setTotalItem}=CartData()
 
@@ -43,6 +43,8 @@ const Navbar = () => {
         <DropdownMenuSeparator/>
         {!isAuth?(<><DropdownMenuItem onClick={()=>navigate("/login")}>Login</DropdownMenuItem></>
     ):(<><DropdownMenuItem onClick={()=>navigate("/orders")}>Your Order</DropdownMenuItem>
+
+    {user && user.role==="admin" &&<DropdownMenuItem onClick={()=>navigate("/admin/dashboard")}>dashboard</DropdownMenuItem>}
 
 
     <DropdownMenuItem onClick={logoutHandler}>Logout</DropdownMenuItem>

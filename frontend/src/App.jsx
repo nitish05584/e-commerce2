@@ -16,6 +16,7 @@ import Payment from './pages/Payment'
 import OrderProcessing from './pages/OrderProcessing'
 import Orders from './pages/Orders'
 import OrderPage from './pages/OrderPage'
+import AdminDashboard from './pages/AdminDashboard'
 
 
 const App = () => {
@@ -38,6 +39,9 @@ const App = () => {
          <Route path='/orders' element={isAuth ? <Orders/> : <Login/>}/>
          
            <Route path='/order/:id' element={isAuth ? <OrderPage/> : <Login/>}/>
+
+
+            <Route path='/admin/dashboard' element={isAuth ? <AdminDashboard/> : <Login/>}/>
 
        <Route path='/checkout' element={isAuth ? <Checkout/> : <Login/>}/>
 

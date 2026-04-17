@@ -63,7 +63,7 @@ export const UserProvider = ({ children }) => {
       const { data } = await axios.get(`${server}/api/user/me`,{
         headers:{token:Cookies.get("token")}
       } )
-      setUser(data.user);
+      setUser(data);
       setIsAuth(true);
       setLoading(false);
     } catch (error) {
