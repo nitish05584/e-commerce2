@@ -56,14 +56,22 @@ const ProductPage = () => {
       )}
       </div>
     )}
-    {relatedProduct ?.length>0 && (<div className='mt-12'>
+    {relatedProduct ?.length>0 && (
+     <>
+     {
+      loading ? (<Loading/>):(
+         <div className='mt-12'>
         <h2 className='text-xl font-bold'>Related Products</h2>
       <div className='mt-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2'>
         {relatedProduct.map((e)=>(
             <ProductCard key={e._id} product={e}/>
         ))}
         </div>  
-        </div>)}
+        </div>
+      )
+     }
+     </>
+      )}
     </div>
   )
 }

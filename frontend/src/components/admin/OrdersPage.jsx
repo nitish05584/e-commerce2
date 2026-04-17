@@ -7,6 +7,8 @@ import Loading from '../Loading'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Link } from 'react-router-dom'
 
+import moment from 'moment'
+import toast from 'react-hot-toast'
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([])
@@ -30,6 +32,24 @@ const OrdersPage = () => {
   useEffect(()=>{
     fetchOrders()
   },[])
+
+  const updateOrderStatus=async(orderId,status)=>{
+    setLoading(true)
+    try {
+      const {data}=await axios.post(`${server}/api/order/${orderId}`,{status},{
+        headers:{
+          token:Cookies.get("token")
+        }
+      })
+      toast.success(data.message)
+      fetchOrders()
+      setLoading(false)
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong")
+      setLoading(false)
+    }
+  }
+
   const filteredOrders = orders.filter((order)=>order.user.email.toLowerCase().includes(search.toLocaleLowerCase()) || order._id.toLowerCase().includes(search.toLocaleLowerCase()))
 
   return (
@@ -63,8 +83,29 @@ const OrdersPage = () => {
 
         <TableCell>
         {order.subTotal}
-        </TableCell> 
+        </TableCell>
+
+         <TableCell>
+        <span className={`px-2 py-1 rounded text-white ${order.status==="pending"?"bg-yellow-500":order.status==="Shipped" ? "bg-blue-500":"bg-green-500" }`}>{order.status}</span>
+        </TableCell>
+
+        <TableCell>
+          {moment(order.createdAt).format("DD MMM YYYY")}
+        </TableCell>
+
+       <TableCell>
+
+        <select value={order.status} className='w-[150px] px-3 py-2 border rounded-md ' onChange={(e)=>updateOrderStatus(order._id,e.target.value)}>
           
+        <option value="pending">Pending</option>  
+
+        <option value={"Shipped"}>Shipped</option>
+
+        <option value={"Delivered"}>Delivered</option>
+
+        </select>
+        </TableCell> 
+
         </TableRow>
       ))}
      </TableBody>
