@@ -120,13 +120,13 @@ const updateProduct=async(req,res)=>{
       if (description){
         updateFields.description=description
       }
-      if (price){
+      if (price !== undefined){
         updateFields.price=price
       }
       if (category){
         updateFields.category=category
       }
-      if (stock){
+      if (stock !== undefined){
         updateFields.stock=stock
       }
 
