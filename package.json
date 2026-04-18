@@ -1,0 +1,15 @@
+{
+  "name": "ecommerce-2",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "backend"
+  ],
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "npm --prefix backend run start"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
