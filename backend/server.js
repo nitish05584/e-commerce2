@@ -22,6 +22,8 @@ const productRoutes = require('./routes/product');
 
  const orderRoutes = require('./routes/order');
 
+ const axios = require('axios');
+
 
 
 
@@ -40,6 +42,21 @@ cloudinary.config({
 
 
 const app = express();
+const url=`https://e-commerce2-8v6l.onrender.com`
+const interval=8080
+
+function reloadWebsite(){
+  axios
+  .get(url)
+  .then((response)=>{
+    console.log("Website reloaded successfully")
+  })
+  .catch((error)=>{
+    console.log("Error reloading website",error.message)
+  })
+}
+setInterval(reloadWebsite,interval)
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
